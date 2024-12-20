@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regalo Diario</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="shortcut icon" href="icononavidad.ico" type="image/x-icon">
+</head>
+<body>
+  <div class="container">
+    <h1>🎁 ¡Reclama tu regalo diario! 🎁</h1>
+    <button id="giftButton" class="btn" onclick="claimGift()">Obtener regalo</button>
+    <p id="message"></p>
+    <div id="giftDisplay" class="gift-box"></div>
+  </div>
+
+  <div id="christmasMessage">
+    <h2 id="messageTitle">PÁGINA PARA EL EVENTO DE NAVIDAD 2024</h2>
+    <p id="messageBody">🎄 ¡Feliz Navidad a todos! 🎄</p>
+    <p id="messageFooter">Att: Noctámbulo</p>
+  </div>
+
+  <div class="language-selector">
+    <button class="btn" onclick="changeLanguage('es')">Español</button>
+    <button class="btn" onclick="changeLanguage('en')">English</button>
+    <button class="btn" onclick="changeLanguage('hi')">हिन्दी</button>
+  </div>
+
+  <footer id="footerMessage">
+    Si ya reclamaste tu regalo, puedes contactarte en Discord con 
+    <a href="https://discordapp.com/users/noctambulosinflow" target="_blank"><strong>NOCTÁMBULO</strong></a> 
+    y, con una captura de pantalla, mostrar cuál fue tu regalo.
+  </footer>
+
+  <script>
+    // Verificar si el usuario ya reclamó el regalo
+    if (localStorage.getItem('hasClaimed') === 'true') {
+      document.getElementById('message').textContent = "Ya reclamaste tu regalo hoy. ¡Vuelve en 24 horas!";
+      document.getElementById('giftButton').disabled = true;  // Deshabilitar el botón de reclamar
+    } else {
+      document.getElementById('message').textContent = "¡Haz clic en el botón para reclamar tu regalo!";
+      document.getElementById('giftButton').disabled = false;  // Habilitar el botón de reclamar
+    }
+
+    // Función para reclamar el regalo
+    function claimGift() {
+      // Marcar que ya ha reclamado el regalo
+      localStorage.setItem('hasClaimed', 'true');
+      
+      // Mostrar el regalo aleatorio (puedes cambiar esto con tus propios regalos)
+      const gifts = ["🎅 ADAN TOOLS", "🎁 ODIN CHECKER", "🎄 ZCOPIE", "🎉 IP TRACKER", "🎈 NUMBER TRACKER"];
+      const randomGift = gifts[Math.floor(Math.random() * gifts.length)];
+      document.getElementById('giftDisplay').textContent = randomGift;
+
+      // Actualizar el mensaje y deshabilitar el botón
+      document.getElementById('message').textContent = "¡Felicidades! Has reclamado tu regalo.";
+      document.getElementById('giftButton').disabled = true;
+
+      // Restablecer el estado después de 24 horas
+      setTimeout(function() {
+        localStorage.removeItem('hasClaimed');
+        location.reload(); // Recargar la página después de 24 horas para que el usuario pueda reclamar nuevamente
+      }, 24 * 60 * 60 * 1000);  // 24 horas en milisegundos
+    }
+
+    // Función para cambiar el idioma
+    function changeLanguage(language) {
+      const texts = {
+        es: {
+          messageTitle: "PÁGINA PARA EL EVENTO DE NAVIDAD 2024",
+          messageBody: "🎄 ¡Feliz Navidad a todos! 🎄",
+          footerMessage: "Si ya reclamaste tu regalo, puedes contactarte en Discord con NOCTÁMBULO y, con una captura de pantalla, mostrar cuál fue tu regalo."
+        },
+        en: {
+          messageTitle: "PAGE FOR THE 2024 CHRISTMAS EVENT",
+          messageBody: "🎄 Merry Christmas to all! 🎄",
+          footerMessage: "If you've already claimed your gift, you can contact NOCTAMBULO on Discord with a screenshot and show which gift you received."
+        },
+        hi: {
+          messageTitle: "2024 क्रिसमस इवेंट के लिए पेज",
+          messageBody: "🎄 सभी को क्रिसमस की शुभकामनाएं! 🎄",
+          footerMessage: "यदि आपने पहले ही अपना उपहार प्राप्त कर लिया है, तो आप NOCTAMBULO से डिस्कोर्ड पर संपर्क कर सकते हैं और एक स्क्रीनशॉट के साथ दिखा सकते हैं कि आपको कौन सा उपहार मिला।"
+        }
+      };
+
+      document.getElementById('messageTitle').textContent = texts[language].messageTitle;
+      document.getElementById('messageBody').textContent = texts[language].messageBody;
+      document.getElementById('footerMessage').textContent = texts[language].footerMessage;
+    }
+  </script>
+</body>
+</html>
